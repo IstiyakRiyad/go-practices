@@ -61,9 +61,9 @@ func albumById(id int64) (Album, error) {
 
 func addAlbum(album Album) (int64, error) {
 	result, err := db.Exec(`insert into album 
-		(id, title, artist, price) 
-		values (?, ?, ?, ?)`, 
-		album.ID, album.Title, album.Artist, album.Price,
+		(title, artist, price) 
+		values (?, ?, ?)`, 
+		album.Title, album.Artist, album.Price,
 	)
 	if err != nil {
 		return 0, fmt.Errorf("AddAlbum: %v", err)
@@ -113,7 +113,6 @@ func main() {
 
 	// Create a row in the table
 	id, err := addAlbum(Album{
-		ID: 7,
 		Title: "Go Programming",
 		Artist: "Istiyak Hossain",
 		Price: 100,
