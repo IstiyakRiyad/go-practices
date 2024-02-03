@@ -2,18 +2,17 @@
 CREATE DATABASE recordings;
 
 -- Insert into the database
--- use recordings;
+-- \c recordings;
 
 -- Delete table if already exists
 DROP TABLE IF EXISTS album;
 
--- Create Table. Here id should be INT AUTO_INCREMENT for mysql
+-- Create Table. Here id should be SERIAL for postgres
 CREATE TABLE album (
-  id         INT AUTO_INCREMENT NOT NULL,
+  id         SERIAL PRIMARY KEY,
   title      VARCHAR(128) NOT NULL,
   artist     VARCHAR(255) NOT NULL,
-  price      DECIMAL(5,2) NOT NULL,
-  PRIMARY KEY (`id`)
+  price      DECIMAL(5,2) NOT NULL
 );
 
 -- Insert some data to the table
