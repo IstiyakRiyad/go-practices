@@ -74,9 +74,7 @@ func addAlbum(album Album) error {
 }
 
 func main() {
-	conURL :=	"user=" + os.Getenv("DBUSER") + 
-				" password="+ os.Getenv("DBPASS") + 
-				" dbname=recordings sslmode=disable"
+	conURL := fmt.Sprintf("user=%s password=%s dbname=recordings sslmode=disable", os.Getenv("DBUSER"), os.Getenv("DBPASS"))
 
 	var err error
 	db, err = sql.Open("postgres", conURL)
@@ -97,11 +95,11 @@ func main() {
 	fmt.Printf("Artist albums: %v\n", albums)
 
 	// Create albums
-	if err := addAlbum(Album{ID: 10, Title: "Programming in go", Artist: "Md. Istiyak Hossain", Price: 22.32,}); err != nil {
+	if err := addAlbum(Album{ID: 11, Title: "Programming in go", Artist: "Md. Istiyak Hossain", Price: 22.32,}); err != nil {
 		log.Fatal(err)
 	}
 
-	album, err := albumById(10)
+	album, err := albumById(11)
 	if err != nil {
 		log.Fatal(err)
 	}
