@@ -8,19 +8,18 @@ import (
 	"path"
 )
 
-func openAndWrite(path string, data string) (int, error) {
-	file, err := os.OpenFile(path, os.O_APPEND | os.O_WRONLY, 0644)
+func openAndWrite(path string, data string) {
+	file, err := os.OpenFile(path, os.O_CREATE| os.O_APPEND | os.O_RDWR, 0644)
 	if err != nil {
-		return 0, err
+		log.Fatal(err)
 	}
 
 	// We can use file.Write([]byte) function for byte data
-	n, err := file.WriteString(path);
+	n, err := file.WriteString(data);
 	if err != nil {
-		return 0, nil
+		log.Fatal(err)
 	}
-
-	return n, nil
+	fmt.Println(n)
 }
 
 func pathLibChecking() {
@@ -49,9 +48,9 @@ func makeDirectoryAndDirectFileWriteAndDelete(directory, fileName, data string) 
 		log.Fatal(err)
 	}
 
-	// if err := os.RemoveAll(directory); err != nil {
-	// 	log.Fatal(err)
-	// }
+	if err := os.RemoveAll(directory); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func pipeFunction() {
@@ -68,14 +67,35 @@ func pipeFunction() {
 	}
 }
 
-func main() {
-	os.Create("text.txt")
-	n, err := openAndWrite("text.txt", "Hello World")
+func readFromFile() {
+	file, err := os.ReadFile("text.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(n)
 
+	fmt.Println(string(file))
+}
+
+func openAndReadFromFile() {
+	file, err := os.Open("text.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	data := make([]byte, 50)
+	_, err = file.Read(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(data))
+}
+
+func main() {
+	openAndWrite("text.txt", "Hello World")
+
+	readFromFile()
+	openAndReadFromFile()
 	
 	// makeDirectoryAndDirectFileWriteAndDelete("files", "secret.txt", "Secret data")
 
