@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title> User Items </title>
+	</head>
+	<body>
+		<h1>Hi, {{.Name}}!</h1>
+		{{if .Items}}
+			<h2>Here your items: </h2>
+			{{range .Items}}
+				<div>{{.}}</div>
+			{{end}}
+		{{end}}
+	</body>
+</html>
+
