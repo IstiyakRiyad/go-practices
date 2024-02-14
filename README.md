@@ -8,3 +8,4 @@ Here some go standard lib and other usefull librabry integration.
 * [3. Flag](3.%20flag/README.md)
 * [4. FileSystem & Path](4.%20fs-path/README.md)
 * [5. Encoding JSON](5.%20encoding-json/README.md)
+* [6. Template](6.%20template/README.md)
