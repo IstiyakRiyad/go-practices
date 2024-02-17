@@ -1,0 +1,8 @@
+{{ range . }}
+---
+Name: {{.Name}}
+Sex: {{.Sex}} ({{ if .Intact }}intect{{ else }}{{ if (eq .Sex "Female") }}spyed{{ else }}neutered{{ end }}{{ end }})
+Age: {{.Age}}
+Breed: {{.Breed}}
+{{ end }}
+
