@@ -1,3 +1,5 @@
+No of dogs: {{ len . }}
+No of dogs: {{ . | len -}}
 {{ range . }}
 ---
 Name: {{.Name}}
