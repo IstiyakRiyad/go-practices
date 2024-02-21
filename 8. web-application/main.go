@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"errors"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"html/template"
+	"regexp"
 )
 
 
@@ -18,13 +19,13 @@ type Page struct {
 func (p *Page) save() error {
 	fileName := p.Title + ".txt"
 
-	return os.WriteFile(fileName, p.Body, 0600);
+	return os.WriteFile("data/" + fileName, p.Body, 0600);
 }
 
 func loadPage(title string) (*Page, error) {
 	fileName := title + ".txt"
 
-	data, err := os.ReadFile(fileName)
+	data, err := os.ReadFile("data/" + fileName)
 	if err != nil {
 		return nil, err
 	}
@@ -35,11 +36,7 @@ func loadPage(title string) (*Page, error) {
 	}, nil
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-}
-
-var templates = template.Must(template.ParseFiles("view.html", "edit.html"))
+var templates = template.Must(template.ParseFiles("tmpl/view.html", "tmpl/edit.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, page *Page) {
 	fileName := tmpl + ".html"
@@ -50,10 +47,21 @@ func renderTemplate(w http.ResponseWriter, tmpl string, page *Page) {
 	}
 }
 
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/view/"):]
+var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
+func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
+	// FindStringSubmatch => 0 => full string, 1...n => sub strings () () () # those which are inside () in regex
+	m := validPath.FindStringSubmatch(r.URL.Path)
 
+	if m == nil {
+		http.NotFound(w, r)
+		return "", errors.New("Invalid Page Title")
+	}
+
+	return m[2], nil
+}
+
+func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	page, err := loadPage(title)
 	if err != nil {
 		http.Redirect(w, r, "/edit/" + title, http.StatusFound)
@@ -63,9 +71,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "view", page)
 }
 
-func editHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/edit/"):]
-
+func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	page, err := loadPage(title)
 	if err != nil {
 		page = &Page{
@@ -77,8 +83,7 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "edit", page)
 }
 
-func saveHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/edit/"):]
+func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
 
 	page := Page{
@@ -94,31 +99,28 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/view/" + title, http.StatusFound)
 }
 
+func makeHandler(fn func(w http.ResponseWriter, r *http.Request, page string)) http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request) {
+		// FindStringSubmatch => 0 => full string, 1...n => sub strings () () () # those which are inside () in regex
+		m := validPath.FindStringSubmatch(r.URL.Path)
+
+		if m == nil {
+			http.NotFound(w, r)
+			return
+		}
+
+		fn(w, r, m[2])
+	}
+}
 
 func main() {
-	http.HandleFunc("/edit/", editHandler)
-	http.HandleFunc("/view/", viewHandler)
-	http.HandleFunc("/save/", saveHandler)
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
 
 	if err := http.ListenAndServe(":8089", nil); err != nil {
 		log.Fatal(err)
 	}
-
-
-	// page := Page{
-	// 	Title: "Page Title",
-	// 	Body: []byte("This is the body of the page."),
-	// }
-	//
-	// page.save()
-	//
-	// pageData, err := loadPage("Page Title he")
-	// if(err != nil) {
-	// 	fmt.Println("Page not found")
-	// }
-	//
-	// fmt.Println(string(pageData.Body))
 }
 
 
