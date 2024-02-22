@@ -36,10 +36,10 @@ func loadPage(title string) (*Page, error) {
 	}, nil
 }
 
-var templates = template.Must(template.ParseFiles("tmpl/view.html", "tmpl/edit.html"))
+var templates = template.Must(template.ParseFiles("tmpl/view.tmpl", "tmpl/edit.tmpl"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, page *Page) {
-	fileName := tmpl + ".html"
+	fileName := tmpl + ".tmpl"
 
 	if err := templates.ExecuteTemplate(w, fileName, page); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
