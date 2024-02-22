@@ -9,11 +9,11 @@ import (
 )
 
 type User struct {
-	Name		string
-	Phone		string
-	District	string
-	CreatedAt	time.Time
-	Position	int64
+	Name		string		`json:"name"`
+	Phone		string		`json:"phone"`
+	District	string		`json:"district"`
+	CreatedAt	time.Time	`json:"created_at"`
+	Position	int64		`json:"position"`
 }
 
 func encodeJSON() {
@@ -36,11 +36,11 @@ func encodeJSON() {
 func decodeJSON() {
 	j := []byte(`
 		{
-			"Name":"Istiyak Hossain Riyad",
-			"Phone":"01773787127",
-			"District":"Rajshahi",
-			"CreatedAt":"2024-02-10T15:15:10.569764324+06:00",
-			"Position": 1
+			"name":"Istiyak Hossain Riyad",
+			"phone":"01773787127",
+			"district":"Rajshahi",
+			"createdAt":"2024-02-10T15:15:10.569764324+06:00",
+			"position": 1
 		}
 	`)
 
@@ -102,7 +102,7 @@ func streamingStdInOut() {
 
 		// From all key select only "Name" from the v
         for k := range v {
-            if k != "Name" {
+            if k != "name" {
                 delete(v, k)
             }
         }
@@ -118,10 +118,10 @@ func main() {
 	// encodeJSON()
 	// decodeJSON()
 
-	// steamingEncoder()
-	// streamingDecoder()
+	steamingEncoder()
+	streamingDecoder()
 
-	streamingStdInOut()
+	// streamingStdInOut()
 }
 
 
