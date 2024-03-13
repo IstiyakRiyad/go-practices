@@ -3,11 +3,11 @@
 Here some go standard lib and other usefull librabry integration.
 
 ## Documentation Links
-* [1. SQL Postgres](1.%20sql-postgres/README.md)
-* [2. SQL MySQL](2.%20sql-mysql/README.md)
-* [3. Flag](3.%20flag/README.md)
-* [4. FileSystem & Path](4.%20fs-path/README.md)
-* [5. Encoding JSON](5.%20encoding-json/README.md)
-* [6. Template](6.%20template/README.md)
-* [7. Template (Custom function)](7.%20template-2/README.md)
-* [8. Web Application](8.%20web-application/README.md)
+* [01. SQL Postgres](01.%20sql-postgres/README.md)
+* [02. SQL MySQL](02.%20sql-mysql/README.md)
+* [03. Flag](03.%20flag/README.md)
+* [04. FileSystem & Path](04.%20fs-path/README.md)
+* [05. Encoding JSON](05.%20encoding-json/README.md)
+* [06. Template](06.%20template/README.md)
+* [07. Template (Custom function)](07.%20template-2/README.md)
+* [08. Web Application](08.%20web-application/README.md)
