@@ -5,6 +5,7 @@ Cobra is a powerful library and tool in Golang that is used to create CLI (Comma
 ## Tutorial Links
 * [Cobra Github User Guide](https://github.com/spf13/cobra/blob/main/site/content/user_guide.md)
 * [educative.io Tutorial](https://www.educative.io/answers/how-to-use-cobra-in-golang)
+* [Random String Password gen](https://www.calhoun.io/creating-random-strings-in-go/)
 
 
 ## Usefull Links
