@@ -1,0 +1,9 @@
+# Super admin credentials
+super_admin_name: istiyak
+super_admin_password: randompass
+
+# Database Credentials
+db_username: root
+db_password: passw
+db_url: postgresql://localhost:5432/dbName?sslmode=disable
+
