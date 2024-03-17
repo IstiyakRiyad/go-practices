@@ -11,3 +11,8 @@ Here some go standard lib and other usefull librabry integration.
 * [06. Template](06.%20template/README.md)
 * [07. Template (Custom function)](07.%20template-2/README.md)
 * [08. Web Application](08.%20web-application/README.md)
+* [09. Context](09.%20context/README.md)
+* [10. HTTP Client](10.%20http-client/README.md)
+* [11. Cobra CLI](11.%20cobra/README.md)
+* [12. Viper Configuration](12.%20viper/README.md)
+* [13. Golang-Migrate](13.%20golang-migrate/README.md)
